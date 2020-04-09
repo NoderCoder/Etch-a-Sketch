@@ -1,5 +1,9 @@
 html {
-    background-color: aquamarine;
+    background: rgb(238,174,202);
+    background: radial-gradient(circle, rgba(238,174,202,1) 10%, rgba(159,187,219,1) 91%);
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
 }
 
 .new-background {
