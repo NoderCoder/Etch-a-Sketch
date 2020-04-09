@@ -1,11 +1,4 @@
 
-// Calc for the resizing the grid
-let gridSizeNumber = 16;
-let mainWrapperSize = 480; //in pixles
-let mainWrapperColumns = gridSizeNumber; //num
-let mainWrapperRows = gridSizeNumber; //num
-let individualRowSize = mainWrapperSize/mainWrapperRows;
-let individualColumnSize = mainWrapperSize/mainWrapperColumns;
 
 //main body 
 let mainbody = document.querySelector("body");
@@ -28,34 +21,52 @@ clearGridBtn.textContent = "Click me to clear the grid :)";
 mainbody.appendChild(clearGridBtn);
 
 
-
 //Parent DIv Properties
 let parentDiv = document.createElement("div");
 parentDiv.setAttribute("id","mainWrapper");
 parentDiv.style.display = "grid";
-parentDiv.style.width = mainWrapperSize + "px";
-parentDiv.style.gridTemplateColumns = "repeat("+ mainWrapperColumns + "," + individualColumnSize + "px)";
-parentDiv.style.gridTemplateRows = "repeat("+ mainWrapperRows + "," + individualRowSize + "px)";
 parentDiv.style.border = "1px solid red";
-parentDiv.style.fontSize = "8px";
+parentDiv.style.fontSize = "4px";
 parentDiv.style.textAlign = "center";
 parentDiv.style.backgroundColor = "lightblue";
 mainbody.appendChild(parentDiv);
 
-// inner Child Divs properties
+//default values
+let mainWrapperSize = 480; //in pixles
+let gridSizeNumber = 22; //number
+function initilizeGrid(){
+// Calc for the resizing the grid
+let mainWrapperColumns = gridSizeNumber; //num
+let mainWrapperRows = gridSizeNumber; //num
+let individualRowSize = mainWrapperSize/mainWrapperRows;
+let individualColumnSize = mainWrapperSize/mainWrapperColumns;
+//Parent DIv Properties
+parentDiv.style.width = mainWrapperSize + "px";
+parentDiv.style.gridTemplateColumns = "repeat("+ mainWrapperColumns + "," + individualColumnSize + "px)";
+parentDiv.style.gridTemplateRows = "repeat("+ mainWrapperRows + "," + individualRowSize + "px)";
 
-for (let y = 1; y <= 16; y++) {
-    for (var x = 1; x <= 16; x++) {
+
+    //removign previous array
+    var oldWrapper = document.getElementById("mainWrapper");
+    while (oldWrapper.hasChildNodes()) {  
+      oldWrapper.removeChild(oldWrapper.firstChild);
+    }
+// inner Child Divs properties
+for (let y = 1; y <= gridSizeNumber; y++) {
+    for (var x = 1; x <= gridSizeNumber; x++) {
         let childDiv = document.createElement("div");
         childDiv.classList.add("old-background");
         childDiv.setAttribute("id", ("R" + y + "C" + x));
-        childDiv.textContent = "R" + y + "C" + x;
+        // childDiv.textContent = "R" + y + "C" + x;
         childDiv.setAttribute("style", "height:auto;width:auto");
         childDiv.style.border = "1px solid black";
         parentDiv.appendChild(childDiv);
     }
 }
-
+invokeColorGrid()
+}
+initilizeGrid();
+// input box
 let inputBox = document.createElement("INPUT");
 inputBox.setAttribute("id","gridInputData");
 inputBox.setAttribute('type','text');
@@ -92,9 +103,13 @@ function changeGrid(){
     let ipDataGrabber = document.getElementById("gridInputData");
     gridSizeNumber=ipDataGrabber.value;
     console.log(gridSizeNumber);
+    initilizeGrid();
 }
 // event listners
+function invokeColorGrid(){
 const cDivs = document.querySelectorAll('.old-background');
 cDivs.forEach(cD => cD.addEventListener('mouseenter',changeColor1));
+}
+invokeColorGrid();
 clearGridBtn.addEventListener("click",clearGrid);
 changeGridBtn.addEventListener("click",changeGrid);
